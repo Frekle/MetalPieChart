@@ -47,7 +47,7 @@ class DepthMaterialRenderer: BaseRenderer {
     }()
     
     lazy var ring: Mesh = {
-        let mesh = Mesh(geometry: RingGeometry(radius: (1, 2.0), res: (60, 4), percent: 0.4, startAngle: 0), material: depthMaterial)
+        let mesh = Mesh(geometry: RingGeometry(radius: (1, 2.0), res: (4, 4), percent: 1, startAngle: 0), material: depthMaterial)
         mesh.label = "Torus"
 //        mesh.position = [2, -2, -2]
 //        mesh.orientation = simd_quatf(angle: Float.pi * 0.25, axis: normalize([1, 1, 1]))
@@ -182,9 +182,9 @@ class DepthMaterialRenderer: BaseRenderer {
 //            sphere,
 //            torus,
             ring,
-            ring2,
-            ring3,
-            ring4
+//            ring2,
+//            ring3,
+//            ring4
 //            cylinder,
 //            capsule,
 //            longBox,

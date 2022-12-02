@@ -206,6 +206,16 @@ GeometryData generateBoxGeometryData(float width, float height, float depth, flo
             }
         }
     }
+    
+    for (int i = 0; i < vertices; i++) {
+        printf("%d %f %f %f \n", i, vtx[i].position.x, vtx[i].position.y, vtx[i].position.z);
+    }
+    
+    printf("=============\n");
+
+    for (int i = 0; i < triangles; i++) {
+        printf("%u %u %u \n", ind[i].i0, ind[i].i1, ind[i].i2);
+    }
 
     return (GeometryData) {
         .vertexCount = vertices, .vertexData = vtx, .indexCount = triangles, .indexData = ind
