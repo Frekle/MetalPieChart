@@ -165,6 +165,7 @@ typedef struct {
         const float cosSlice = cos(slice);
         const float sinSlice = sin(slice);
 
+        //
         for (int a = 0; a <= angular; a++) {
             const float af = (float)a;
             const float angle = af * angularInc - M_PI * 2.0 / 8;
@@ -172,9 +173,24 @@ typedef struct {
             const float cosAngle = cos(angle);
             const float sinAngle = sin(angle);
 
-            const float x = cosSlice * (majorRadius + cosAngle * minorRadius);
-            const float y = sinSlice * (majorRadius + cosAngle * minorRadius);
-            const float z = sinAngle * minorRadius;
+            float x = cosSlice * (majorRadius + cosAngle * minorRadius);
+            if (a == 0 || a == 1 || a == angular) {
+                x = cosSlice * (majorRadius + minorRadius);
+            } else {
+                x = cosSlice * majorRadius;
+            }
+            float y = sinSlice * (majorRadius + cosAngle * minorRadius);
+            if (a == 0 || a == 1 || a == angular) {
+                y = sinSlice * (majorRadius + minorRadius);
+            } else {
+                y = sinSlice * majorRadius;
+            }
+            float z = sinAngle * minorRadius;
+            if (a == 0 || a == 3 || a == angular) {
+                z = height / 2;
+            } else {
+                z = - height / 2;
+            }
 
             const simd_float3 tangent = simd_make_float3(-sinSlice, cosSlice, 0.0);
             const simd_float3 stangent =
@@ -222,6 +238,10 @@ typedef struct {
                 ind[triangleIndex++] = tl + 4;
             }
         }
+    }
+    
+    for (int i = 0; i < vertices; i++) {
+        printf("%f %f %f \n", position[i].x, position[i].y, position[i].z);
     }
     
     return (GeometryData) {
