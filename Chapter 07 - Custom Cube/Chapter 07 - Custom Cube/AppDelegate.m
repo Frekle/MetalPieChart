@@ -27,6 +27,8 @@
 
 @implementation AppDelegate
 
+// 旋转方向问题
+//https://lymuxh.github.io/2017/11/06/ARKit入门系列六使用SceneKit旋转问题/
 - (void)awakeFromNib
 {
     // An empty scene
@@ -47,7 +49,7 @@
     // --------------------------
     CGFloat cubeSide = 10;
     CGFloat halfSide = cubeSide / 2;
-    GeometryData geometryData = [self generateRingWithMinorRadius:halfSide majorRadius:cubeSide height:10 minorResolution:4 percent:0.4 startAngle:0];
+    GeometryData geometryData = [self generateRingWithMinorRadius:halfSide majorRadius:cubeSide height:5 minorResolution:4 percent:0.4 startAngle:0];
     SCNVector3 *vertices = geometryData.position;
     SCNVector3 *normals = geometryData.normal;
     CGPoint *UVs = geometryData.uv;
