@@ -1835,6 +1835,8 @@ GeometryData generateIcoSphereGeometryData(float radius, int res) {
         const simd_float3 n = simd_normalize(simd_make_float3(p.x, p.y, p.z));
         vtx[i].normal = n;
         vtx[i].uv = simd_make_float2((atan2(n.x, n.z) + M_PI) / (2.0 * M_PI), acos(n.y) / M_PI);
+        
+        printf("%f %f %f \n", n.x, n.y, n.z);
     }
 
     return (GeometryData) {
