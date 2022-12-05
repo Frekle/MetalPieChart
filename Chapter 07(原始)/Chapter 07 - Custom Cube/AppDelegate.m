@@ -58,25 +58,25 @@
         SCNVector3Make(-halfSide,  halfSide, -halfSide),
         SCNVector3Make( halfSide,  halfSide, -halfSide),
         
-        // repeat exactly the same
-        SCNVector3Make(-halfSide, -halfSide,  halfSide),
-        SCNVector3Make( halfSide, -halfSide,  halfSide),
-        SCNVector3Make(-halfSide, -halfSide, -halfSide),
-        SCNVector3Make( halfSide, -halfSide, -halfSide),
-        SCNVector3Make(-halfSide,  halfSide,  halfSide),
-        SCNVector3Make( halfSide,  halfSide,  halfSide),
-        SCNVector3Make(-halfSide,  halfSide, -halfSide),
-        SCNVector3Make( halfSide,  halfSide, -halfSide),
-        
-        // repeat exactly the same
-        SCNVector3Make(-halfSide, -halfSide,  halfSide),
-        SCNVector3Make( halfSide, -halfSide,  halfSide),
-        SCNVector3Make(-halfSide, -halfSide, -halfSide),
-        SCNVector3Make( halfSide, -halfSide, -halfSide),
-        SCNVector3Make(-halfSide,  halfSide,  halfSide),
-        SCNVector3Make( halfSide,  halfSide,  halfSide),
-        SCNVector3Make(-halfSide,  halfSide, -halfSide),
-        SCNVector3Make( halfSide,  halfSide, -halfSide)
+//        // repeat exactly the same
+//        SCNVector3Make(-halfSide, -halfSide,  halfSide),
+//        SCNVector3Make( halfSide, -halfSide,  halfSide),
+//        SCNVector3Make(-halfSide, -halfSide, -halfSide),
+//        SCNVector3Make( halfSide, -halfSide, -halfSide),
+//        SCNVector3Make(-halfSide,  halfSide,  halfSide),
+//        SCNVector3Make( halfSide,  halfSide,  halfSide),
+//        SCNVector3Make(-halfSide,  halfSide, -halfSide),
+//        SCNVector3Make( halfSide,  halfSide, -halfSide),
+//
+//        // repeat exactly the same
+//        SCNVector3Make(-halfSide, -halfSide,  halfSide),
+//        SCNVector3Make( halfSide, -halfSide,  halfSide),
+//        SCNVector3Make(-halfSide, -halfSide, -halfSide),
+//        SCNVector3Make( halfSide, -halfSide, -halfSide),
+//        SCNVector3Make(-halfSide,  halfSide,  halfSide),
+//        SCNVector3Make( halfSide,  halfSide,  halfSide),
+//        SCNVector3Make(-halfSide,  halfSide, -halfSide),
+//        SCNVector3Make( halfSide,  halfSide, -halfSide)
     };
     
     SCNVector3 normals[] = {
@@ -149,22 +149,43 @@
     // Indices that turn the source data into triangles and lines
     // ----------------------------------------------------------
     
+//    int solidIndices[] = {
+//        // bottom
+//        0, 2, 1,
+//        1, 2, 3,
+//        // back
+//        10, 14, 11,  // 2, 6, 3,   + 8
+//        11, 14, 15,  // 3, 6, 7,   + 8
+//        // left
+//        16, 20, 18,  // 0, 4, 2,   + 16
+//        18, 20, 22,  // 2, 4, 6,   + 16
+//        // right
+//        17, 19, 21,  // 1, 3, 5,   + 16
+//        19, 23, 21,  // 3, 7, 5,   + 16
+//        // front
+//        8,  9, 12,  // 0, 1, 4,   + 8
+//        9, 13, 12,  // 1, 5, 4,   + 8
+//        // top
+//        4, 5, 6,
+//        5, 7, 6
+//    };
+    
     int solidIndices[] = {
         // bottom
         0, 2, 1,
         1, 2, 3,
         // back
-        10, 14, 11,  // 2, 6, 3,   + 8
-        11, 14, 15,  // 3, 6, 7,   + 8
+        6, 7, 2,
+        7, 3, 2,
         // left
-        16, 20, 18,  // 0, 4, 2,   + 16
-        18, 20, 22,  // 2, 4, 6,   + 16
+        4, 6, 0,
+        6, 2, 0,
         // right
-        17, 19, 21,  // 1, 3, 5,   + 16
-        19, 23, 21,  // 3, 7, 5,   + 16
+        3, 1, 7,
+        1, 5, 7,
         // front
-        8,  9, 12,  // 0, 1, 4,   + 8
-        9, 13, 12,  // 1, 5, 4,   + 8
+        1, 0, 5,
+        0, 4, 5,
         // top
         4, 5, 6,
         5, 7, 6
