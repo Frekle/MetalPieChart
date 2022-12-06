@@ -116,15 +116,136 @@ typedef struct {
     int *indexData;
 } GeometryData;
 
+//- (GeometryData)generateRingWithMinorRadius:(CGFloat)minorRadius
+//                                majorRadius:(CGFloat)majorRadius
+//                                     height:(CGFloat)height
+//                            minorResolution:(int)minorResolution
+//                                    percent:(CGFloat)percent
+//                                 startAngle:(CGFloat)startAngle {
+//    const int slices = minorResolution > 2 ? minorResolution : 3; // 几条棱
+//    const int angular = 4; // 每条棱有几个面
+//
+//    const float slicesf = (float)slices;
+//    const float angularf = (float)angular;
+//
+//    const float limit = M_PI * 2.0;
+//    // 每一份的角度
+//    const float sliceInc = limit * percent / slicesf;
+//    const float angularInc = limit / angularf;
+//
+//    bool addWall = percent < 1 ? true: false;
+//    const int loopSlices = addWall ? slices: slices;
+//
+//    const int perLoop = angular * 4; // 12
+//    const int vertices = loopSlices * perLoop;
+//    const int triangles = (angular * 2 * slices + (addWall ? 4: 0)) * 3;
+//
+//    SCNVector3 *position = (SCNVector3 *)malloc(vertices * sizeof(SCNVector3));
+//    // 表面上某一点的法向量（Normal Vector）指的是在该点处与表面垂直的方向。对于平面，其上各点的法向是一样的，统一为这个平面的法向。对于曲面，各点具有不同的法向量. 正确设置网格面上点的法向，对几何体在光照等情况下显示得更真实，这样就可以减少顶点数量，提高渲染速度
+//    //
+//    SCNVector3 *normals = (SCNVector3 *)malloc(vertices * sizeof(SCNVector3));
+//    CGPoint *uv = (CGPoint *)malloc(vertices * sizeof(CGPoint));
+//    int *ind = (int *)malloc(triangles * sizeof(int));
+//
+//    int vertexIndex = 0;
+//    int triangleIndex = 0;
+//
+//    for (int s = 0; s < loopSlices; s++) {
+//        const float sf = addWall ? (s > 0 ? (float)s-1: (float)s): (float)s;
+//        const float slice = sf * sliceInc + limit * startAngle;
+//
+//        const float cosSlice = cos(slice);
+//        const float sinSlice = sin(slice);
+//
+//        const float normalSlice = slice + sliceInc / 2;
+//        const float normalOuterRadius = (majorRadius + minorRadius) / (majorRadius + minorRadius) * cos(normalSlice);
+//        const float normalInnerRadius = majorRadius / majorRadius * cos(normalSlice);
+//
+//        for (int a = 0; a < angular * 4; a++) {
+//            float af = (float)a;
+//            const float angle = af * angularInc - M_PI * 2.0 / 8;
+//            const float cosAngle = cos(angle);
+//            const float sinAngle = sin(angle);
+//
+//            float x = cosSlice * (majorRadius + cosAngle * minorRadius);
+//            if (a % 4 == 0 || a % 4 == 1) {
+//                x = cosSlice * (majorRadius + minorRadius);
+//            } else {
+//                x = cosSlice * majorRadius;
+//            }
+//            float y = sinSlice * (majorRadius + cosAngle * minorRadius);
+//            if (a % 4 == 0 || a % 4 == 1) {
+//                y = sinSlice * (majorRadius + minorRadius);
+//            } else {
+//                y = sinSlice * majorRadius;
+//            }
+//            float z = sinAngle * minorRadius;
+//            if (a % 4 == 0 || a % 4 == 3) {
+//                z = height / 2;
+//            } else {
+//                z = - height / 2;
+//            }
+//
+//            // 饼状图的扇形墙面部分 a向量与y轴一致 b向量与面平行，得到c向量即法线
+//            const simd_float3 tangent = simd_make_float3(-sinSlice, cosSlice, 0.0);
+//            const simd_float3 stangent = simd_make_float3(cosSlice * (-sinAngle), sinSlice * (-sinAngle), cosAngle);
+//            const simd_float3 normal = simd_cross(tangent, stangent);
+//
+//            int currentVertex = vertexIndex++;
+//            if (a % 4 == 0 || a % 4 == 1) {
+//                float normalX = normalOuterRadius * cos(normalSlice);
+//                float normalZ = normalOuterRadius * sin(normalSlice);
+//                float normalY = 0;
+//                normals[currentVertex] = SCNVector3Make(normalX, normalY, normalZ);
+//            } else {
+//                float normalX = -normalOuterRadius * cos(normalSlice);
+//                float normalZ = -normalOuterRadius * sin(normalSlice);
+//                float normalY = 0;
+//                normals[currentVertex] = SCNVector3Make(normalX, normalY, normalZ);
+//            }
+//
+//            position[currentVertex] = SCNVector3Make(x, z, y);
+////            normals[currentVertex] = SCNVector3Make(normal.x, normal.z, normal.y);
+//            uv[currentVertex] = CGPointMake(af / angularf, sf / slicesf);
+//
+//            if (a < angular) {
+//                const uint32_t index = a * 5 % perLoop + s * perLoop;
+//                const uint32_t tl = index;
+//                const uint32_t tr = tl + 1;
+//                const uint32_t bl = (index + perLoop);
+//                const uint32_t br = (bl + 1);
+//                ind[triangleIndex++] = tl;
+//                ind[triangleIndex++] = tr;
+//                ind[triangleIndex++] = bl;
+//                ind[triangleIndex++] = tr;
+//                ind[triangleIndex++] = br;
+//                ind[triangleIndex++] = bl;
+//            }
+//        }
+//    }
+//
+////    for (int i = 0; i < vertices; i++) {
+//////        printf("%d %f %f %f \n",i, position[i].x, position[i].y, position[i].z);
+////        printf("%f %f %f \n", normals[i].x, normals[i].y, normals[i].z);
+////    }
+//
+//    for (int i = 0; i < triangles; i++) {
+//        printf("%d ", ind[i]);
+//        if ((i + 1) % 3 == 0) {
+//            printf("\n");
+//        }
+//    }
+//
+//    return (GeometryData) {
+//        .vertexCount = vertices,
+//        .position = position,
+//        .normal = normals,
+//        .uv = uv,
+//        .indexCount = triangles,
+//        .indexData = ind
+//    };
+//}
 
-/// <#Description#>
-/// - Parameters:
-///   - minorRadius: 内径
-///   - majorRadius: 外径
-///   - height: 厚度
-///   - minorResolution: <#minorResolution description#>
-///   - percent: <#percent description#>
-///   - startAngle: <#startAngle description#>
 - (GeometryData)generateRingWithMinorRadius:(CGFloat)minorRadius
                                 majorRadius:(CGFloat)majorRadius
                                      height:(CGFloat)height
@@ -144,9 +265,9 @@ typedef struct {
 
     bool addWall = percent < 1 ? true: false;
     const int loopSlices = addWall ? slices: slices;
-    
-    const int perLoop = angular + 1;
-    const int vertices = (loopSlices + 1) * perLoop;
+
+    const int perLoop = angular * 3; // 12
+    const int vertices = loopSlices * perLoop;
     const int triangles = (angular * 2 * slices + (addWall ? 4: 0)) * 3;
 
     SCNVector3 *position = (SCNVector3 *)malloc(vertices * sizeof(SCNVector3));
@@ -158,49 +279,38 @@ typedef struct {
 
     int vertexIndex = 0;
     int triangleIndex = 0;
-    
-//    const simd_float3 tangent = simd_make_float3(1, 0, 0);
-//    const simd_float3 stangent = simd_make_float3(0, 1, 0);
-//    const simd_float3 normal = simd_cross(tangent, stangent);
 
-    for (int s = 0; s <= loopSlices; s++) {
+    for (int s = 0; s < loopSlices; s++) {
         const float sf = addWall ? (s > 0 ? (float)s-1: (float)s): (float)s;
         const float slice = sf * sliceInc + limit * startAngle;
 
         const float cosSlice = cos(slice);
         const float sinSlice = sin(slice);
-        
-//        const float nextSf = addWall ? (s > 0 ? (float)s-1+1: (float)s+1): (float)s+1;
-//        const float nextSlice = nextSf * sliceInc + limit * startAngle;
-//        const float nextCosSlice = cos(nextSlice);
-//        const float nextSinSlice = cos(nextSlice);
 
-        const float normalSlice = slice + slice / 2;
+        const float normalSlice = slice + sliceInc / 2;
         const float normalOuterRadius = (majorRadius + minorRadius) / (majorRadius + minorRadius) * cos(normalSlice);
-        const float normalInnerRadius = majorRadius * cos(normalSlice);
-        
-        //
-        for (int a = 0; a <= angular; a++) {
-            const float af = (float)a;
-            const float angle = af * angularInc - M_PI * 2.0 / 8;
+        const float normalInnerRadius = majorRadius / majorRadius * cos(normalSlice);
 
+        for (int a = 0; a < angular * 3; a++) {
+            float af = (float)a;
+            const float angle = af * angularInc - M_PI * 2.0 / 8;
             const float cosAngle = cos(angle);
             const float sinAngle = sin(angle);
 
             float x = cosSlice * (majorRadius + cosAngle * minorRadius);
-            if (a == 0 || a == 1 || a == angular) {
+            if (a % 4 == 0 || a % 4 == 1) {
                 x = cosSlice * (majorRadius + minorRadius);
             } else {
                 x = cosSlice * majorRadius;
             }
             float y = sinSlice * (majorRadius + cosAngle * minorRadius);
-            if (a == 0 || a == 1 || a == angular) {
+            if (a % 4 == 0 || a % 4 == 1) {
                 y = sinSlice * (majorRadius + minorRadius);
             } else {
                 y = sinSlice * majorRadius;
             }
             float z = sinAngle * minorRadius;
-            if (a == 0 || a == 3 || a == angular) {
+            if (a % 4 == 0 || a % 4 == 3) {
                 z = height / 2;
             } else {
                 z = - height / 2;
@@ -210,32 +320,30 @@ typedef struct {
             const simd_float3 tangent = simd_make_float3(-sinSlice, cosSlice, 0.0);
             const simd_float3 stangent = simd_make_float3(cosSlice * (-sinAngle), sinSlice * (-sinAngle), cosAngle);
             const simd_float3 normal = simd_cross(tangent, stangent);
-            
+
             int currentVertex = vertexIndex++;
-            if (a == 0 || a == 1 || a == angular) {
-                float normalX = normalOuterRadius * cos(slice / 2);
-                float normalZ = normalOuterRadius * sin(slice / 2);
+            if (a % 4 == 0 || a % 4 == 1) {
+                float normalX = normalOuterRadius * cos(normalSlice);
+                float normalZ = normalOuterRadius * sin(normalSlice);
                 float normalY = 0;
-                normals[currentVertex] = SCNVector3Make(normalX, normalZ, normalY);
+                normals[currentVertex] = SCNVector3Make(normalX, normalY, normalZ);
             } else {
-                float normalX = -normalOuterRadius * cos(slice / 2);
-                float normalZ = -normalOuterRadius * sin(slice / 2);
+                float normalX = -normalOuterRadius * cos(normalSlice);
+                float normalZ = -normalOuterRadius * sin(normalSlice);
                 float normalY = 0;
-                normals[currentVertex] = SCNVector3Make(normalX, normalZ, normalY);
+                normals[currentVertex] = SCNVector3Make(normalX, normalY, normalZ);
             }
-            
+
             position[currentVertex] = SCNVector3Make(x, z, y);
 //            normals[currentVertex] = SCNVector3Make(normal.x, normal.z, normal.y);
             uv[currentVertex] = CGPointMake(af / angularf, sf / slicesf);
 
-            if (s != loopSlices && a != angular) {
-                const uint32_t index = a + s * perLoop;
-
-                const uint32_t tl = index;//0
-                const uint32_t tr = tl + 1;//1
-                const uint32_t bl = index + perLoop;//0+perloop
-                const uint32_t br = bl + 1;//0+perloop+1
-
+            if (a < angular) {
+                const uint32_t index = a * 5 % perLoop + s * perLoop + angular * s;
+                const uint32_t tl = index;
+                const uint32_t tr = tl + 1;
+                const uint32_t bl = (index + perLoop) % 36;
+                const uint32_t br = (bl + 1) % 36;
                 ind[triangleIndex++] = tl;
                 ind[triangleIndex++] = tr;
                 ind[triangleIndex++] = bl;
@@ -243,41 +351,21 @@ typedef struct {
                 ind[triangleIndex++] = br;
                 ind[triangleIndex++] = bl;
             }
-            if (addWall && s == 0 && a == angular) {
-                const uint32_t index = a + s * perLoop;
-                const uint32_t tl = index;
-                ind[triangleIndex++] = tl;
-                ind[triangleIndex++] = tl - 1;
-                ind[triangleIndex++] = tl - 2;
-                ind[triangleIndex++] = tl - 2;
-                ind[triangleIndex++] = tl - 3;
-                ind[triangleIndex++] = tl - 4;
-            } else if (addWall && s == loopSlices && a == 0) { // 翻转的意义是纹理的正反面
-                const uint32_t index = a + s * perLoop;
-                const uint32_t tl = index;
-                ind[triangleIndex++] = tl;
-                ind[triangleIndex++] = tl + 1;
-                ind[triangleIndex++] = tl + 2;
-                ind[triangleIndex++] = tl + 2;
-                ind[triangleIndex++] = tl + 3;
-                ind[triangleIndex++] = tl + 4;
-            }
         }
     }
-    
-    for (int i = 0; i < vertices; i++) {
-//        printf("%f %f %f \n", position[i].x, position[i].y, position[i].z);
-        printf("%f %f %f \n", normals[i].x, normals[i].y, normals[i].z);
-    }
-    
+
+//    for (int i = 0; i < vertices; i++) {
+////        printf("%d %f %f %f \n",i, position[i].x, position[i].y, position[i].z);
+//        printf("%f %f %f \n", normals[i].x, normals[i].y, normals[i].z);
+//    }
+
     for (int i = 0; i < triangles; i++) {
-//        printf("%d %d %d \n", ind[i], ind[i], ind[i]);
         printf("%d ", ind[i]);
         if ((i + 1) % 3 == 0) {
             printf("\n");
         }
     }
-    
+
     return (GeometryData) {
         .vertexCount = vertices,
         .position = position,
@@ -287,6 +375,171 @@ typedef struct {
         .indexData = ind
     };
 }
+
+///// <#Description#>
+///// - Parameters:
+/////   - minorRadius: 内径
+/////   - majorRadius: 外径
+/////   - height: 厚度
+/////   - minorResolution: <#minorResolution description#>
+/////   - percent: <#percent description#>
+/////   - startAngle: <#startAngle description#>
+//- (GeometryData)generateRingWithMinorRadius:(CGFloat)minorRadius
+//                                majorRadius:(CGFloat)majorRadius
+//                                     height:(CGFloat)height
+//                            minorResolution:(int)minorResolution
+//                                    percent:(CGFloat)percent
+//                                 startAngle:(CGFloat)startAngle {
+//    const int slices = minorResolution > 2 ? minorResolution : 3; // 几条棱
+//    const int angular = 4; // 每条棱有几个面
+//
+//    const float slicesf = (float)slices;
+//    const float angularf = (float)angular;
+//
+//    const float limit = M_PI * 2.0;
+//    // 每一份的角度
+//    const float sliceInc = limit * percent / slicesf;
+//    const float angularInc = limit / angularf;
+//
+//    bool addWall = percent < 1 ? true: false;
+//    const int loopSlices = addWall ? slices: slices;
+//
+//    const int perLoop = angular + 1;
+////    const int perLoop = angular * 3 + 1;
+//    const int vertices = (loopSlices + 1) * perLoop;
+//    const int triangles = (angular * 2 * slices + (addWall ? 4: 0)) * 3;
+//
+//    SCNVector3 *position = (SCNVector3 *)malloc(vertices * sizeof(SCNVector3));
+//    // 表面上某一点的法向量（Normal Vector）指的是在该点处与表面垂直的方向。对于平面，其上各点的法向是一样的，统一为这个平面的法向。对于曲面，各点具有不同的法向量. 正确设置网格面上点的法向，对几何体在光照等情况下显示得更真实，这样就可以减少顶点数量，提高渲染速度
+//    //
+//    SCNVector3 *normals = (SCNVector3 *)malloc(vertices * sizeof(SCNVector3));
+//    CGPoint *uv = (CGPoint *)malloc(vertices * sizeof(CGPoint));
+//    int *ind = (int *)malloc(triangles * sizeof(int));
+//
+//    int vertexIndex = 0;
+//    int triangleIndex = 0;
+//
+//    for (int s = 0; s <= loopSlices; s++) {
+//        const float sf = addWall ? (s > 0 ? (float)s-1: (float)s): (float)s;
+//        const float slice = sf * sliceInc + limit * startAngle;
+//
+//        const float cosSlice = cos(slice);
+//        const float sinSlice = sin(slice);
+//
+//        const float normalSlice = slice + slice / 2;
+//        const float normalOuterRadius = (majorRadius + minorRadius) / (majorRadius + minorRadius) * cos(normalSlice);
+//        const float normalInnerRadius = majorRadius * cos(normalSlice);
+//
+//
+//
+//
+//        for (int a = 0; a <= angular; a++) {
+//            const float af = (float)a;
+//            const float angle = af * angularInc - M_PI * 2.0 / 8;
+//
+//            const float cosAngle = cos(angle);
+//            const float sinAngle = sin(angle);
+//
+//            float x = cosSlice * (majorRadius + cosAngle * minorRadius);
+//            if (a == 0 || a == 1 || a == angular) {
+//                x = cosSlice * (majorRadius + minorRadius);
+//            } else {
+//                x = cosSlice * majorRadius;
+//            }
+//            float y = sinSlice * (majorRadius + cosAngle * minorRadius);
+//            if (a == 0 || a == 1 || a == angular) {
+//                y = sinSlice * (majorRadius + minorRadius);
+//            } else {
+//                y = sinSlice * majorRadius;
+//            }
+//            float z = sinAngle * minorRadius;
+//            if (a == 0 || a == 3 || a == angular) {
+//                z = height / 2;
+//            } else {
+//                z = - height / 2;
+//            }
+//
+//            // 饼状图的扇形墙面部分 a向量与y轴一致 b向量与面平行，得到c向量即法线
+//            const simd_float3 tangent = simd_make_float3(-sinSlice, cosSlice, 0.0);
+//            const simd_float3 stangent = simd_make_float3(cosSlice * (-sinAngle), sinSlice * (-sinAngle), cosAngle);
+//            const simd_float3 normal = simd_cross(tangent, stangent);
+//
+//            int currentVertex = vertexIndex++;
+//            if (a == 0 || a == 1 || a == angular) {
+//                float normalX = normalOuterRadius * cos(slice / 2);
+//                float normalZ = normalOuterRadius * sin(slice / 2);
+//                float normalY = 0;
+//                normals[currentVertex] = SCNVector3Make(normalX, normalZ, normalY);
+//            } else {
+//                float normalX = -normalOuterRadius * cos(slice / 2);
+//                float normalZ = -normalOuterRadius * sin(slice / 2);
+//                float normalY = 0;
+//                normals[currentVertex] = SCNVector3Make(normalX, normalZ, normalY);
+//            }
+//
+//            position[currentVertex] = SCNVector3Make(x, z, y);
+////            normals[currentVertex] = SCNVector3Make(normal.x, normal.z, normal.y);
+//            uv[currentVertex] = CGPointMake(af / angularf, sf / slicesf);
+//
+//            if (s != loopSlices && a != angular) {
+//                const uint32_t index = a + s * perLoop;
+//
+//                const uint32_t tl = index;//0
+//                const uint32_t tr = tl + 1;//1
+//                const uint32_t bl = index + perLoop;//0+perloop
+//                const uint32_t br = bl + 1;//0+perloop+1
+//
+//                ind[triangleIndex++] = tl;
+//                ind[triangleIndex++] = tr;
+//                ind[triangleIndex++] = bl;
+//                ind[triangleIndex++] = tr;
+//                ind[triangleIndex++] = br;
+//                ind[triangleIndex++] = bl;
+//            }
+//            if (addWall && s == 0 && a == angular) {
+//                const uint32_t index = a + s * perLoop;
+//                const uint32_t tl = index;
+//                ind[triangleIndex++] = tl;
+//                ind[triangleIndex++] = tl - 1;
+//                ind[triangleIndex++] = tl - 2;
+//                ind[triangleIndex++] = tl - 2;
+//                ind[triangleIndex++] = tl - 3;
+//                ind[triangleIndex++] = tl - 4;
+//            } else if (addWall && s == loopSlices && a == 0) { // 翻转的意义是纹理的正反面
+//                const uint32_t index = a + s * perLoop;
+//                const uint32_t tl = index;
+//                ind[triangleIndex++] = tl;
+//                ind[triangleIndex++] = tl + 1;
+//                ind[triangleIndex++] = tl + 2;
+//                ind[triangleIndex++] = tl + 2;
+//                ind[triangleIndex++] = tl + 3;
+//                ind[triangleIndex++] = tl + 4;
+//            }
+//        }
+//    }
+//
+//    for (int i = 0; i < vertices; i++) {
+////        printf("%f %f %f \n", position[i].x, position[i].y, position[i].z);
+//        printf("%f %f %f \n", normals[i].x, normals[i].y, normals[i].z);
+//    }
+//
+//    for (int i = 0; i < triangles; i++) {
+////        printf("%d %d %d \n", ind[i], ind[i], ind[i]);
+//        printf("%d ", ind[i]);
+//        if ((i + 1) % 3 == 0) {
+//            printf("\n");
+//        }
+//    }
+//
+//    return (GeometryData) {
+//        .vertexCount = vertices,
+//        .position = position,
+//        .normal = normals,
+//        .uv = uv,
+//        .indexCount = triangles,
+//        .indexData = ind
+//    };
+//}
 
 - (GeometryData)generateBoxGeometryData:(CGFloat)width
                                  height:(CGFloat)height

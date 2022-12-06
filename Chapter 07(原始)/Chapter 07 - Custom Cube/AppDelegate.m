@@ -49,69 +49,69 @@
     CGFloat halfSide = cubeSide/2.0;
     
     SCNVector3 vertices[] = {
-        SCNVector3Make(-halfSide, -halfSide,  halfSide),
-        SCNVector3Make( halfSide, -halfSide,  halfSide),
-        SCNVector3Make(-halfSide, -halfSide, -halfSide),
-        SCNVector3Make( halfSide, -halfSide, -halfSide),
-        SCNVector3Make(-halfSide,  halfSide,  halfSide),
-        SCNVector3Make( halfSide,  halfSide,  halfSide),
-        SCNVector3Make(-halfSide,  halfSide, -halfSide),
-        SCNVector3Make( halfSide,  halfSide, -halfSide),
+        SCNVector3Make(-halfSide, -halfSide,  halfSide), // 0
+        SCNVector3Make( halfSide, -halfSide,  halfSide), // 1
+        SCNVector3Make(-halfSide, -halfSide, -halfSide), // 2
+        SCNVector3Make( halfSide, -halfSide, -halfSide), // 3
+        SCNVector3Make(-halfSide,  halfSide,  halfSide), // 4
+        SCNVector3Make( halfSide,  halfSide,  halfSide), // 5
+        SCNVector3Make(-halfSide,  halfSide, -halfSide), // 6
+        SCNVector3Make( halfSide,  halfSide, -halfSide), // 7
         
-//        // repeat exactly the same
-//        SCNVector3Make(-halfSide, -halfSide,  halfSide),
-//        SCNVector3Make( halfSide, -halfSide,  halfSide),
-//        SCNVector3Make(-halfSide, -halfSide, -halfSide),
-//        SCNVector3Make( halfSide, -halfSide, -halfSide),
-//        SCNVector3Make(-halfSide,  halfSide,  halfSide),
-//        SCNVector3Make( halfSide,  halfSide,  halfSide),
-//        SCNVector3Make(-halfSide,  halfSide, -halfSide),
-//        SCNVector3Make( halfSide,  halfSide, -halfSide),
-//
-//        // repeat exactly the same
-//        SCNVector3Make(-halfSide, -halfSide,  halfSide),
-//        SCNVector3Make( halfSide, -halfSide,  halfSide),
-//        SCNVector3Make(-halfSide, -halfSide, -halfSide),
-//        SCNVector3Make( halfSide, -halfSide, -halfSide),
-//        SCNVector3Make(-halfSide,  halfSide,  halfSide),
-//        SCNVector3Make( halfSide,  halfSide,  halfSide),
-//        SCNVector3Make(-halfSide,  halfSide, -halfSide),
-//        SCNVector3Make( halfSide,  halfSide, -halfSide)
+        // repeat exactly the same
+        SCNVector3Make(-halfSide, -halfSide,  halfSide), // 8
+        SCNVector3Make( halfSide, -halfSide,  halfSide), // 9
+        SCNVector3Make(-halfSide, -halfSide, -halfSide), // 10
+        SCNVector3Make( halfSide, -halfSide, -halfSide), // 11
+        SCNVector3Make(-halfSide,  halfSide,  halfSide), // 12
+        SCNVector3Make( halfSide,  halfSide,  halfSide), // 13
+        SCNVector3Make(-halfSide,  halfSide, -halfSide), // 14
+        SCNVector3Make( halfSide,  halfSide, -halfSide), // 15
+
+        // repeat exactly the same
+        SCNVector3Make(-halfSide, -halfSide,  halfSide), // 16
+        SCNVector3Make( halfSide, -halfSide,  halfSide), // 17
+        SCNVector3Make(-halfSide, -halfSide, -halfSide), // 18
+        SCNVector3Make( halfSide, -halfSide, -halfSide), // 19
+        SCNVector3Make(-halfSide,  halfSide,  halfSide), // 20
+        SCNVector3Make( halfSide,  halfSide,  halfSide), // 21
+        SCNVector3Make(-halfSide,  halfSide, -halfSide), // 22
+        SCNVector3Make( halfSide,  halfSide, -halfSide)  // 23
     };
     
     SCNVector3 normals[] = {
-        // up and down
-        SCNVector3Make( 0, -1, 0),
-        SCNVector3Make( 0, -1, 0),
-        SCNVector3Make( 0, -1, 0),
-        SCNVector3Make( 0, -1, 0),
+        // up and down                                                                                                                                                                       
+        SCNVector3Make( 0, -1, 0), // 0
+        SCNVector3Make( 0, -1, 0), // 1
+        SCNVector3Make( 0, -1, 0), // 2
+        SCNVector3Make( 0, -1, 0), // 3
         
-        SCNVector3Make( 0, 1, 0),
-        SCNVector3Make( 0, 1, 0),
-        SCNVector3Make( 0, 1, 0),
-        SCNVector3Make( 0, 1, 0),
+        SCNVector3Make( 0, 1, 0), // 4
+        SCNVector3Make( 0, 1, 0), // 5
+        SCNVector3Make( 0, 1, 0), // 6
+        SCNVector3Make( 0, 1, 0), // 7
         
         // back and front
-        SCNVector3Make( 0, 0,  1),
-        SCNVector3Make( 0, 0,  1),
-        SCNVector3Make( 0, 0, -1),
-        SCNVector3Make( 0, 0, -1),
+        SCNVector3Make( 0, 0,  1), // 8
+        SCNVector3Make( 0, 0,  1), // 9
+        SCNVector3Make( 0, 0, -1), // 10
+        SCNVector3Make( 0, 0, -1), // 11
         
-        SCNVector3Make( 0, 0, 1),
-        SCNVector3Make( 0, 0, 1),
-        SCNVector3Make( 0, 0, -1),
-        SCNVector3Make( 0, 0, -1),
+        SCNVector3Make( 0, 0, 1), // 12
+        SCNVector3Make( 0, 0, 1), // 13
+        SCNVector3Make( 0, 0, -1), // 14
+        SCNVector3Make( 0, 0, -1), // 15
         
         // left and right
-        SCNVector3Make(-1, 0, 0),
-        SCNVector3Make( 1, 0, 0),
-        SCNVector3Make(-1, 0, 0),
-        SCNVector3Make( 1, 0, 0),
+        SCNVector3Make(-1, 0, 0), // 16
+        SCNVector3Make( 1, 0, 0), // 17
+        SCNVector3Make(-1, 0, 0), // 18
+        SCNVector3Make( 1, 0, 0), // 19
         
-        SCNVector3Make(-1, 0, 0),
-        SCNVector3Make( 1, 0, 0),
-        SCNVector3Make(-1, 0, 0),
-        SCNVector3Make( 1, 0, 0),
+        SCNVector3Make(-1, 0, 0), // 20
+        SCNVector3Make( 1, 0, 0), // 21
+        SCNVector3Make(-1, 0, 0), // 22
+        SCNVector3Make( 1, 0, 0), // 23
     };
     
 	CGPoint UVs[] = {
@@ -149,43 +149,22 @@
     // Indices that turn the source data into triangles and lines
     // ----------------------------------------------------------
     
-//    int solidIndices[] = {
-//        // bottom
-//        0, 2, 1,
-//        1, 2, 3,
-//        // back
-//        10, 14, 11,  // 2, 6, 3,   + 8
-//        11, 14, 15,  // 3, 6, 7,   + 8
-//        // left
-//        16, 20, 18,  // 0, 4, 2,   + 16
-//        18, 20, 22,  // 2, 4, 6,   + 16
-//        // right
-//        17, 19, 21,  // 1, 3, 5,   + 16
-//        19, 23, 21,  // 3, 7, 5,   + 16
-//        // front
-//        8,  9, 12,  // 0, 1, 4,   + 8
-//        9, 13, 12,  // 1, 5, 4,   + 8
-//        // top
-//        4, 5, 6,
-//        5, 7, 6
-//    };
-    
     int solidIndices[] = {
         // bottom
         0, 2, 1,
         1, 2, 3,
         // back
-        6, 7, 2,
-        7, 3, 2,
+        10, 14, 11,
+        11, 14, 15,
         // left
-        4, 6, 0,
-        6, 2, 0,
+        16, 20, 18,
+        18, 20, 22,
         // right
-        3, 1, 7,
-        1, 5, 7,
+        17, 19, 21,
+        19, 23, 21,
         // front
-        1, 0, 5,
-        0, 4, 5,
+        8,  9, 12,
+        9, 13, 12,
         // top
         4, 5, 6,
         5, 7, 6
