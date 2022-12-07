@@ -27,14 +27,501 @@
 
 @implementation AppDelegate
 
-// 旋转方向问题
-//https://lymuxh.github.io/2017/11/06/ARKit入门系列六使用SceneKit旋转问题/
+//- (void)awakeFromNib
+//{
+//    // An empty scene
+//    SCNScene *scene = [SCNScene scene];
+//    self.cubeView.scene = scene;
+//
+////    SCNNode *cameraNode = [SCNNode node];
+////    cameraNode.camera   = [SCNCamera camera];
+////    cameraNode.position = SCNVector3Make(0, 12, 30);
+////    cameraNode.rotation = SCNVector4Make(1, 0, 0,
+////                                         -sin(12.0/30.0));
+////
+////
+////    [scene.rootNode addChildNode:cameraNode];
+//
+//
+//    // Custom geometry data for a cube
+//    // --------------------------
+//    CGFloat cubeSide = 15.0;
+//    CGFloat halfSide = cubeSide/2.0;
+//
+////    SCNVector3 vertices[] = {
+////        SCNVector3Make(-halfSide, -halfSide,  halfSide), //0
+////        SCNVector3Make( halfSide, -halfSide,  halfSide), //1
+////        SCNVector3Make(-halfSide, -halfSide, -halfSide), //2
+////        SCNVector3Make( halfSide, -halfSide, -halfSide), //3
+////        SCNVector3Make(-halfSide,  halfSide,  halfSide), //4
+////        SCNVector3Make( halfSide,  halfSide,  halfSide), //5
+////        SCNVector3Make(-halfSide,  halfSide, -halfSide), //6
+////        SCNVector3Make( halfSide,  halfSide, -halfSide), //7
+////
+////        // repeat exactly the same
+////        SCNVector3Make(-halfSide, -halfSide,  halfSide), //8
+////        SCNVector3Make( halfSide, -halfSide,  halfSide), //9
+////        SCNVector3Make(-halfSide, -halfSide, -halfSide), //10
+////        SCNVector3Make( halfSide, -halfSide, -halfSide), //11
+////        SCNVector3Make(-halfSide,  halfSide,  halfSide), //12
+////        SCNVector3Make( halfSide,  halfSide,  halfSide), //13
+////        SCNVector3Make(-halfSide,  halfSide, -halfSide), //14
+////        SCNVector3Make( halfSide,  halfSide, -halfSide), //15
+////
+////        // repeat exactly the same
+////        /*
+////         16, 20, 18,
+////         18, 20, 22,
+////         // right
+////         17, 19, 21,
+////         19, 23, 21,
+////         */
+////        SCNVector3Make(-halfSide, -halfSide,  halfSide), //16
+////        SCNVector3Make( halfSide, -halfSide,  halfSide), //17
+////        SCNVector3Make(-halfSide, -halfSide, -halfSide), //18
+////        SCNVector3Make( halfSide, -halfSide, -halfSide), //19
+////        SCNVector3Make(-halfSide,  halfSide,  halfSide), //20
+////        SCNVector3Make( halfSide,  halfSide,  halfSide), //21
+////        SCNVector3Make(-halfSide,  halfSide, -halfSide), //22
+////        SCNVector3Make( halfSide,  halfSide, -halfSide) //23
+////    };
+//
+//    float zValue = halfSide * cos(12);
+////    SCNVector3 vertices[] = {
+////        SCNVector3Make(-halfSide/2, -halfSide,  zValue), // 0
+////        SCNVector3Make( halfSide, -halfSide,  0), // 1
+////        SCNVector3Make(-halfSide/2, -halfSide, -zValue), // 2
+////        SCNVector3Make(-halfSide/2, halfSide,  zValue), // 3
+////        SCNVector3Make( halfSide, halfSide,  0), //4
+////        SCNVector3Make(-halfSide/2, halfSide, -zValue), // 5
+////
+////        // repeat exactly the same
+////        SCNVector3Make(-halfSide/2, -halfSide,  zValue), // 6
+////        SCNVector3Make( halfSide, -halfSide,  0), // 7
+////        SCNVector3Make(-halfSide/2, -halfSide, -zValue), // 8
+////        SCNVector3Make(-halfSide/2, halfSide,  zValue), // 9
+////        SCNVector3Make( halfSide, halfSide,  0), // 10
+////        SCNVector3Make(-halfSide/2, halfSide, -zValue), // 11
+////
+////        // repeat exactly the same
+////        SCNVector3Make(-halfSide/2, -halfSide,  zValue), // 12
+////        SCNVector3Make( halfSide, -halfSide,  0), // 13
+////        SCNVector3Make(-halfSide/2, -halfSide, -zValue), // 14
+////        SCNVector3Make(-halfSide/2, halfSide,  zValue), // 15
+////        SCNVector3Make( halfSide, halfSide,  0), // 16
+////        SCNVector3Make(-halfSide/2, halfSide, -zValue), // 17
+////    };
+//    SCNVector3 vertices[] = {
+//        SCNVector3Make(15.000000, 2.500000, 0.000000), // 0
+//        SCNVector3Make(15.000000, -2.500000, 0.000000), // 1
+//        SCNVector3Make(15.000000, -2.500000, 0.000000), // 2
+//        SCNVector3Make(0.000000, -2.500000, 0.000000), // 3
+//        SCNVector3Make(0.000000, -2.500000, 0.000000), // 4
+//        SCNVector3Make(0.000000, 2.500000, 0.000000), // 5
+//        SCNVector3Make(0.000000, 2.500000, 0.000000), // 6
+//        SCNVector3Make( 15.000000, 2.500000, 0.000000), // 7
+//        SCNVector3Make( -7.500001, 2.500000, 12.990381), // 8
+//        SCNVector3Make( -7.500001, -2.500000, 12.990381), // 9
+//        SCNVector3Make( -7.500001, -2.500000, 12.990381), // 10
+//        SCNVector3Make( -0.000000 ,-2.500000, 0.000000), // 11
+//        SCNVector3Make( -0.000000, -2.500000, 0.000000), // 12
+//        SCNVector3Make( -0.000000, 2.500000, 0.000000), // 13
+//        SCNVector3Make( -0.000000, 2.500000, 0.000000), // 14
+//        SCNVector3Make( -7.500001, 2.500000, 12.990381), // 15
+//        SCNVector3Make( -7.500001, 2.500000, 12.990381), // 0
+//        SCNVector3Make( -7.500001, -2.500000, 12.990381), // 0
+//        SCNVector3Make( -7.500001, -2.500000, 12.990381), // 0
+//        SCNVector3Make( -0.000000, -2.500000, 0.000000), // 0
+//        SCNVector3Make( -0.000000, -2.500000, 0.000000), // 0
+//        SCNVector3Make( -0.000000, 2.500000, 0.000000), // 0
+//        SCNVector3Make( -0.000000, 2.500000, 0.000000), // 0
+//        SCNVector3Make( -7.500001, 2.500000, 12.990381), // 0
+//        SCNVector3Make( -7.499999, 2.500000, -12.990381), // 0
+//        SCNVector3Make( -7.499999, -2.500000, -12.990381), // 0
+//        SCNVector3Make( -7.499999, -2.500000, -12.990381), // 0
+//        SCNVector3Make( -0.000000, -2.500000, -0.000000), // 0
+//        SCNVector3Make( -0.000000, -2.500000, -0.000000), // 0
+//        SCNVector3Make( -0.000000, 2.500000, -0.000000), // 0
+//        SCNVector3Make( -0.000000, 2.500000, -0.000000), // 0
+//        SCNVector3Make( -7.499999, 2.500000, -12.990381), // 0
+//        SCNVector3Make( -7.499999, 2.500000, -12.990381), // 0
+//        SCNVector3Make( -7.499999, -2.500000, -12.990381), // 0
+//        SCNVector3Make( -7.499999, -2.500000, -12.990381), // 0
+//        SCNVector3Make( -0.000000, -2.500000, -0.000000), // 0
+//        SCNVector3Make( -0.000000, -2.500000, -0.000000), // 0
+//        SCNVector3Make( -0.000000, 2.500000,-0.000000), // 0
+//        SCNVector3Make( -0.000000, 2.500000, -0.000000), // 0
+//        SCNVector3Make( -7.499999, 2.500000, -12.990381), // 0
+//        SCNVector3Make( 15.000000, 2.500000, 0.000003), // 0
+//        SCNVector3Make( 15.000000, -2.500000, 0.000003), // 0
+//        SCNVector3Make( 15.000000, -2.500000, 0.000003), // 0
+//        SCNVector3Make( 0.000000, -2.500000, 0.000000), // 0
+//        SCNVector3Make( 0.000000, -2.500000, 0.000000), // 0
+//        SCNVector3Make( 0.000000, 2.500000, 0.000000), // 0
+//        SCNVector3Make( 0.000000, 2.500000, 0.000000), // 0
+//        SCNVector3Make( 15.000000, 2.500000, 0.000003), // 0
+//    };
+//
+//
+////    SCNVector3 normals[] = {
+////        // up and down
+////        SCNVector3Make( 0, -1, 0),
+////        SCNVector3Make( 0, -1, 0),
+////        SCNVector3Make( 0, -1, 0),
+////        SCNVector3Make( 0, -1, 0),
+////
+////        SCNVector3Make( 0, 1, 0),
+////        SCNVector3Make( 0, 1, 0),
+////        SCNVector3Make( 0, 1, 0),
+////        SCNVector3Make( 0, 1, 0),
+////
+////        // back and front
+////        SCNVector3Make( 0, 0,  1),
+////        SCNVector3Make( 0, 0,  1),
+////        SCNVector3Make( 0, 0, -1),
+////        SCNVector3Make( 0, 0, -1),
+////
+////        SCNVector3Make( 0, 0, 1),
+////        SCNVector3Make( 0, 0, 1),
+////        SCNVector3Make( 0, 0, -1),
+////        SCNVector3Make( 0, 0, -1),
+////
+////        // left and right
+////        SCNVector3Make(-1, 0, 0), // 16
+////        SCNVector3Make( 1, 0, 0),
+////        SCNVector3Make(-1, 0, 0), // 18
+////        SCNVector3Make( 1, 0, 0),
+////
+////        SCNVector3Make(-1, 0, 0), // 20
+////        SCNVector3Make( 1, 0, 0),
+////        SCNVector3Make(-1, 0, 0), // 22
+////        SCNVector3Make( 1, 0, 0),
+////    };
+////    SCNVector3 normals[] = {
+////        // down
+////        SCNVector3Make( 0, -1, 0), //0
+////        SCNVector3Make( 0, -1, 0), //1
+////        SCNVector3Make( 0, -1, 0),//2
+////
+////        // up
+////        SCNVector3Make( 0, 1, 0),//3
+////        SCNVector3Make( 0, 1, 0),//4
+////        SCNVector3Make( 0, 1, 0),//5
+////
+////        // left 6,8,9,11
+////        // right 12,13,15,16
+////        SCNVector3Make(-1, 0, 0),//6
+////        SCNVector3Make(0.25, 0, -cos(12)/2.0),//7
+////        SCNVector3Make(-1, 0, 0),//8
+////        SCNVector3Make(-1, 0, 0),//9
+////        SCNVector3Make(0.25, 0, -cos(12)/2.0),//10
+////        SCNVector3Make(-1, 0, 0),//11
+////        SCNVector3Make(0.25, 0, cos(12)/2.0),//12
+////        SCNVector3Make(0.25, 0, cos(12)/2.0),//13
+////
+////        // back 7,10,14,17
+////        SCNVector3Make(0.25, 0, -cos(12)/2.0),//14
+////        SCNVector3Make(0.25, 0, cos(12)/2.0),//15
+////        SCNVector3Make(0.25, 0, cos(12)/2.0),//16
+////        SCNVector3Make(0.25, 0, -cos(12)/2.0),//17
+////    };
+//
+//    SCNVector3 normals[] = {
+//        SCNVector3Make(0.250000, 0.000000, 0.433013), //0
+//        SCNVector3Make(0.250000, 0.000000, 0.433013), //1
+//        SCNVector3Make(0.000000, -1.000000, 0.000000), //2
+//        SCNVector3Make(0.000000, -1.000000, 0.000000), //3
+////        SCNVector3Make(-0.250000, 0.000000, -0.433013),
+////        SCNVector3Make(-0.250000, 0.000000, -0.433013),
+//        SCNVector3Make(0, 0.000000, 0), //4
+//        SCNVector3Make(0, 0.000000, 0),//5
+//        SCNVector3Make(0.000000, 1.000000, 0.000000),//6
+//        SCNVector3Make(0.000000, 1.000000, 0.000000),//7
+//        SCNVector3Make(0.250000, 0.000000, 0.433013),//8
+//        SCNVector3Make(0.250000, 0.000000, 0.433013),//9
+//        SCNVector3Make(0.000000, -1.000000, 0.000000),//10
+//        SCNVector3Make(0.000000, -1.000000, 0.000000),//11
+//        SCNVector3Make(0, 0.000000, 0),
+//        SCNVector3Make(0, 0.000000, 0),
+//        SCNVector3Make(0.000000, 1.000000, 0.000000), //14
+//        SCNVector3Make(0.000000, 1.000000, 0.000000),
+//        SCNVector3Make(-0.500000, 0.000000, -0.000000),
+//        SCNVector3Make(-0.500000, 0.000000, -0.000000),
+//        SCNVector3Make(0.000000, -1.000000, 0.000000),//18
+//        SCNVector3Make(0.000000, -1.000000, 0.000000),//19
+//        SCNVector3Make(0.500000, 0.000000, 0.000000),//20
+//        SCNVector3Make(0.500000, 0.000000, 0.000000),//21
+//        SCNVector3Make(0.000000, 1.000000, 0.000000),
+//        SCNVector3Make(0.000000, 1.000000, 0.000000),
+//        SCNVector3Make(-0.500000, 0.000000, -0.000000),
+//        SCNVector3Make(-0.500000, 0.000000, -0.000000),
+//        SCNVector3Make(0.000000, -1.000000, 0.000000),
+//        SCNVector3Make(0.000000, -1.000000, 0.000000),
+//        SCNVector3Make(0.500000, 0.000000, 0.000000),//28
+//        SCNVector3Make(0.500000, 0.000000, 0.000000),//29
+//        SCNVector3Make(0.000000, 1.000000, 0.000000),
+//        SCNVector3Make(0.000000, 1.000000, 0.000000),
+//        SCNVector3Make(0.250000, 0.000000, -0.433013),
+//        SCNVector3Make(0.250000, 0.000000, -0.433013),
+//        SCNVector3Make(0.000000, -1.000000, 0.000000),
+//        SCNVector3Make(0.000000, -1.000000, 0.000000),
+//        SCNVector3Make(-0.250000, 0.000000, 0.433013),
+//        SCNVector3Make(-0.250000, 0.000000, 0.433013),//36
+//        SCNVector3Make(0.000000, 1.000000, 0.000000),//37
+//        SCNVector3Make(0.000000, 1.000000, 0.000000),
+//        SCNVector3Make(0.250000, 0.000000, -0.433013),
+//        SCNVector3Make(0.250000, 0.000000, -0.433013),
+//        SCNVector3Make(0.000000, -1.000000, 0.000000),
+//        SCNVector3Make(0.000000, -1.000000, 0.000000),
+//        SCNVector3Make(-0.250000, 0.000000, 0.433013),
+//        SCNVector3Make(0, 0.000000, 0),//44
+//        SCNVector3Make(0.000000, 0, 0.000000),//45
+//        SCNVector3Make(0.000000, 1.000000, 0.000000),
+//    };
+//
+//    CGPoint UVs[] = {
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//        CGPointMake(0, 0),
+//    };
+//
+//    // Indices that turn the source data into triangles and lines
+//    // ----------------------------------------------------------
+//
+////    int solidIndices[] = {
+////        // bottom
+////        0, 2, 1,
+////        1, 2, 3,
+////        // back
+////        10, 14, 11,
+////        11, 14, 15,
+////        // left
+////        16, 20, 18,
+////        18, 20, 22,
+////        // right
+////        17, 19, 21,
+////        19, 23, 21,
+////        // front
+////        8,  9, 12,
+////        9, 13, 12,
+////        // top
+////        4, 5, 6,
+////        5, 7, 6
+////    };
+//
+////    int solidIndices[] = {
+////        // bottom
+////        0, 2, 1,
+////        // left
+////        6, 9, 11,
+////        8, 6, 11,
+////        // right
+////        13, 16, 12,
+////        12, 16, 15,
+////        // back
+////        7, 14, 10,
+////        14, 17, 10,
+////        // top
+////        3, 4, 5,
+////    };
+//
+//    int solidIndices[] = {
+////        0, 1, 8,
+////        1, 9, 8,
+////        2, 3, 10,
+////        3, 11, 10,
+////        4, 5, 12,
+////        5, 13, 12,
+////        6, 7, 14,
+////        7, 15, 14,
+////        16, 17, 24,
+////        17, 25, 24,
+////        18, 19, 26,
+////        19, 27, 26,
+////        20, 21, 28,
+////        21, 29, 28,
+////        22, 23, 30,
+////        23, 31, 30,
+////        32, 33, 40,
+////        33, 41, 40,
+////        34, 35, 42,
+////        35, 43, 42,
+////        36, 37, 44,
+////        37, 45, 44,
+////        38, 39, 46,
+////        39, 47, 46,
+//
+//        0, 8, 1,
+//        1, 8, 9,
+//        2, 10, 3,
+//        3, 10, 11,
+//        4, 12, 5,
+//        5, 11, 13,
+//        6, 14, 7,
+//        7, 14, 15,
+//
+//        16, 24, 17,
+//        17, 24, 25,
+//        18,  26,19,
+//        19,  26,27,
+//        20,  28,21,
+//        21,  28,29,
+//        22,  30,23,
+//        23,  30,31,
+//        32,  40,33,
+//        33, 40, 41,
+//        34, 42, 35,
+//        35, 42, 43,
+//        36, 44, 37,
+//        37, 44, 45,
+//        38, 46, 39,
+//        39, 46, 47,
+//    };
+//
+////    int verticesCount = 24;
+////    int solidCount = 12;
+////    int verticesCount = 18;
+////    int solidCount = 8;
+//    int verticesCount = 48;
+//    int solidCount = 24;
+////    int verticesCount = 12;
+////    int solidCount = 4;
+//
+//    // Sources for the vertices, normals, and UVs
+//    SCNGeometrySource *vertexSource =
+//    [SCNGeometrySource geometrySourceWithVertices:vertices
+//                                            count:verticesCount];
+//    SCNGeometrySource *normalSource =
+//    [SCNGeometrySource geometrySourceWithNormals:normals
+//                                           count:verticesCount];
+//
+//    SCNGeometrySource *uvSource =
+//    [SCNGeometrySource geometrySourceWithTextureCoordinates:UVs count:verticesCount];
+//
+//
+//
+//    NSData *solidIndexData = [NSData dataWithBytes:solidIndices
+//                                            length:sizeof(solidIndices)];
+//
+//    // Create one element for the triangles and one for the lines
+//    // using the two different buffers defined above
+//    SCNGeometryElement *solidElement =
+//    [SCNGeometryElement geometryElementWithData:solidIndexData
+//                                  primitiveType:SCNGeometryPrimitiveTypeTriangles
+//                                 primitiveCount:solidCount
+//                                  bytesPerIndex:sizeof(int)];
+//
+//    // Create a geometry object from the sources and the two elements
+//    SCNGeometry *geometry = [SCNGeometry geometryWithSources:@[vertexSource, normalSource, uvSource]
+//                            elements:@[solidElement]];
+//
+//
+//    // Give the cube a light blue colored material for the solid part ...
+//    NSColor *lightBlueColor = [NSColor colorWithCalibratedRed:  4.0/255.0
+//                                                        green:120.0/255.0
+//                                                         blue:255.0/255.0
+//                                                        alpha:1.0];
+//
+//    SCNMaterial *solidMataterial = [SCNMaterial material];
+//    solidMataterial.diffuse.contents = lightBlueColor;
+//    solidMataterial.locksAmbientWithDiffuse = YES;
+//
+//    // ... and a white constant material for the lines
+//    SCNMaterial *lineMaterial = [SCNMaterial material];
+//    lineMaterial.diffuse.contents  = lightBlueColor;
+//    lineMaterial.lightingModelName = SCNLightingModelConstant;
+//
+////    geometry.materials = @[solidMataterial, lineMaterial];
+//    geometry.materials = @[solidMataterial];
+//
+//
+//    // Attach the cube (solid + lines) to a node and add it to the scene
+//    SCNNode *cubeNode = [SCNNode nodeWithGeometry:geometry];
+//    [scene.rootNode addChildNode:cubeNode];
+//}
+
 - (void)awakeFromNib
 {
     // An empty scene
     SCNScene *scene = [SCNScene scene];
     self.cubeView.scene = scene;
-    
+
 //	SCNNode *cameraNode = [SCNNode node];
 //	cameraNode.position = SCNVector3Make(0, 12, 30);
 //    cameraNode.rotation = SCNVector4Make(1, 0, 0,
@@ -42,7 +529,7 @@
 //
 //
 //    [scene.rootNode addChildNode:cameraNode];
-    
+
 //    SCNCamera *camera = [SCNCamera camera];
 //    if (@available(macOS 10.13, *)) {
 //        camera.fieldOfView = 30;
@@ -50,13 +537,13 @@
 //        camera.xFov = 1;
 //    }
 //    cameraNode.camera = camera;
-	
-    
+
+
     // Custom geometry data for a cube
     // --------------------------
-    CGFloat cubeSide = 10;
+    CGFloat cubeSide = 15;
     CGFloat halfSide = cubeSide / 2;
-    GeometryData geometryData = [self generateRingWithMinorRadius:halfSide majorRadius:cubeSide height:5 minorResolution:3 percent:1 startAngle:0];
+    GeometryData geometryData = [self generateRingWithMinorRadius:halfSide majorRadius:cubeSide height:5 minorResolution:3 percent:0.4 startAngle:0];
 //    GeometryData geometryData = [self generateBoxGeometryData:halfSide height:halfSide depth:halfSide centerX:0 centerY:0 centerZ:0 widthResolution:1 heightResolution:1 depthResolution:1];
     SCNVector3 *vertices = geometryData.position;
     SCNVector3 *normals = geometryData.normal;
@@ -81,27 +568,27 @@
                                   primitiveType:SCNGeometryPrimitiveTypeTriangles
                                  primitiveCount:geometryData.indexCount/3
                                   bytesPerIndex:sizeof(int)];
-    
-    
+
+
     // Create a geometry object from the sources and the two elements
     SCNGeometry *geometry = [SCNGeometry geometryWithSources:@[vertexSource, normalSource, uvSource]
                             elements:@[solidElement]];
-    
+
     // Give the cube a light blue colored material for the solid part ...
     NSColor *lightBlueColor = [NSColor colorWithCalibratedRed:  4.0/255.0
                                                         green:120.0/255.0
                                                          blue:255.0/255.0
                                                         alpha:1.0];
-    
+
     SCNMaterial *solidMataterial = [SCNMaterial material];
     solidMataterial.diffuse.contents = lightBlueColor;
 //    solidMataterial.diffuse.contents = [NSColor redColor];
 	solidMataterial.locksAmbientWithDiffuse = YES;
-	
+
     // ... and a white constant material for the lines
     geometry.materials = @[solidMataterial];
-    
-    
+
+
     // Attach the cube (solid + lines) to a node and add it to the scene
     SCNNode *cubeNode = [SCNNode nodeWithGeometry:geometry];
     [scene.rootNode addChildNode:cubeNode];
@@ -116,136 +603,6 @@ typedef struct {
     int *indexData;
 } GeometryData;
 
-//- (GeometryData)generateRingWithMinorRadius:(CGFloat)minorRadius
-//                                majorRadius:(CGFloat)majorRadius
-//                                     height:(CGFloat)height
-//                            minorResolution:(int)minorResolution
-//                                    percent:(CGFloat)percent
-//                                 startAngle:(CGFloat)startAngle {
-//    const int slices = minorResolution > 2 ? minorResolution : 3; // 几条棱
-//    const int angular = 4; // 每条棱有几个面
-//
-//    const float slicesf = (float)slices;
-//    const float angularf = (float)angular;
-//
-//    const float limit = M_PI * 2.0;
-//    // 每一份的角度
-//    const float sliceInc = limit * percent / slicesf;
-//    const float angularInc = limit / angularf;
-//
-//    bool addWall = percent < 1 ? true: false;
-//    const int loopSlices = addWall ? slices: slices;
-//
-//    const int perLoop = angular * 4; // 12
-//    const int vertices = loopSlices * perLoop;
-//    const int triangles = (angular * 2 * slices + (addWall ? 4: 0)) * 3;
-//
-//    SCNVector3 *position = (SCNVector3 *)malloc(vertices * sizeof(SCNVector3));
-//    // 表面上某一点的法向量（Normal Vector）指的是在该点处与表面垂直的方向。对于平面，其上各点的法向是一样的，统一为这个平面的法向。对于曲面，各点具有不同的法向量. 正确设置网格面上点的法向，对几何体在光照等情况下显示得更真实，这样就可以减少顶点数量，提高渲染速度
-//    //
-//    SCNVector3 *normals = (SCNVector3 *)malloc(vertices * sizeof(SCNVector3));
-//    CGPoint *uv = (CGPoint *)malloc(vertices * sizeof(CGPoint));
-//    int *ind = (int *)malloc(triangles * sizeof(int));
-//
-//    int vertexIndex = 0;
-//    int triangleIndex = 0;
-//
-//    for (int s = 0; s < loopSlices; s++) {
-//        const float sf = addWall ? (s > 0 ? (float)s-1: (float)s): (float)s;
-//        const float slice = sf * sliceInc + limit * startAngle;
-//
-//        const float cosSlice = cos(slice);
-//        const float sinSlice = sin(slice);
-//
-//        const float normalSlice = slice + sliceInc / 2;
-//        const float normalOuterRadius = (majorRadius + minorRadius) / (majorRadius + minorRadius) * cos(normalSlice);
-//        const float normalInnerRadius = majorRadius / majorRadius * cos(normalSlice);
-//
-//        for (int a = 0; a < angular * 4; a++) {
-//            float af = (float)a;
-//            const float angle = af * angularInc - M_PI * 2.0 / 8;
-//            const float cosAngle = cos(angle);
-//            const float sinAngle = sin(angle);
-//
-//            float x = cosSlice * (majorRadius + cosAngle * minorRadius);
-//            if (a % 4 == 0 || a % 4 == 1) {
-//                x = cosSlice * (majorRadius + minorRadius);
-//            } else {
-//                x = cosSlice * majorRadius;
-//            }
-//            float y = sinSlice * (majorRadius + cosAngle * minorRadius);
-//            if (a % 4 == 0 || a % 4 == 1) {
-//                y = sinSlice * (majorRadius + minorRadius);
-//            } else {
-//                y = sinSlice * majorRadius;
-//            }
-//            float z = sinAngle * minorRadius;
-//            if (a % 4 == 0 || a % 4 == 3) {
-//                z = height / 2;
-//            } else {
-//                z = - height / 2;
-//            }
-//
-//            // 饼状图的扇形墙面部分 a向量与y轴一致 b向量与面平行，得到c向量即法线
-//            const simd_float3 tangent = simd_make_float3(-sinSlice, cosSlice, 0.0);
-//            const simd_float3 stangent = simd_make_float3(cosSlice * (-sinAngle), sinSlice * (-sinAngle), cosAngle);
-//            const simd_float3 normal = simd_cross(tangent, stangent);
-//
-//            int currentVertex = vertexIndex++;
-//            if (a % 4 == 0 || a % 4 == 1) {
-//                float normalX = normalOuterRadius * cos(normalSlice);
-//                float normalZ = normalOuterRadius * sin(normalSlice);
-//                float normalY = 0;
-//                normals[currentVertex] = SCNVector3Make(normalX, normalY, normalZ);
-//            } else {
-//                float normalX = -normalOuterRadius * cos(normalSlice);
-//                float normalZ = -normalOuterRadius * sin(normalSlice);
-//                float normalY = 0;
-//                normals[currentVertex] = SCNVector3Make(normalX, normalY, normalZ);
-//            }
-//
-//            position[currentVertex] = SCNVector3Make(x, z, y);
-////            normals[currentVertex] = SCNVector3Make(normal.x, normal.z, normal.y);
-//            uv[currentVertex] = CGPointMake(af / angularf, sf / slicesf);
-//
-//            if (a < angular) {
-//                const uint32_t index = a * 5 % perLoop + s * perLoop;
-//                const uint32_t tl = index;
-//                const uint32_t tr = tl + 1;
-//                const uint32_t bl = (index + perLoop);
-//                const uint32_t br = (bl + 1);
-//                ind[triangleIndex++] = tl;
-//                ind[triangleIndex++] = tr;
-//                ind[triangleIndex++] = bl;
-//                ind[triangleIndex++] = tr;
-//                ind[triangleIndex++] = br;
-//                ind[triangleIndex++] = bl;
-//            }
-//        }
-//    }
-//
-////    for (int i = 0; i < vertices; i++) {
-//////        printf("%d %f %f %f \n",i, position[i].x, position[i].y, position[i].z);
-////        printf("%f %f %f \n", normals[i].x, normals[i].y, normals[i].z);
-////    }
-//
-//    for (int i = 0; i < triangles; i++) {
-//        printf("%d ", ind[i]);
-//        if ((i + 1) % 3 == 0) {
-//            printf("\n");
-//        }
-//    }
-//
-//    return (GeometryData) {
-//        .vertexCount = vertices,
-//        .position = position,
-//        .normal = normals,
-//        .uv = uv,
-//        .indexCount = triangles,
-//        .indexData = ind
-//    };
-//}
-
 - (GeometryData)generateRingWithMinorRadius:(CGFloat)minorRadius
                                 majorRadius:(CGFloat)majorRadius
                                      height:(CGFloat)height
@@ -259,113 +616,116 @@ typedef struct {
     const float angularf = (float)angular;
 
     const float limit = M_PI * 2.0;
-    // 每一份的角度
     const float sliceInc = limit * percent / slicesf;
     const float angularInc = limit / angularf;
 
     bool addWall = percent < 1 ? true: false;
     const int loopSlices = addWall ? slices: slices;
-
-    const int perLoop = angular * 3; // 12
+    
+    const int perLoop = angular * 4;
     const int vertices = loopSlices * perLoop;
     const int triangles = (angular * 2 * slices + (addWall ? 4: 0)) * 3;
 
     SCNVector3 *position = (SCNVector3 *)malloc(vertices * sizeof(SCNVector3));
-    // 表面上某一点的法向量（Normal Vector）指的是在该点处与表面垂直的方向。对于平面，其上各点的法向是一样的，统一为这个平面的法向。对于曲面，各点具有不同的法向量. 正确设置网格面上点的法向，对几何体在光照等情况下显示得更真实，这样就可以减少顶点数量，提高渲染速度
-    //
     SCNVector3 *normals = (SCNVector3 *)malloc(vertices * sizeof(SCNVector3));
     CGPoint *uv = (CGPoint *)malloc(vertices * sizeof(CGPoint));
     int *ind = (int *)malloc(triangles * sizeof(int));
 
     int vertexIndex = 0;
     int triangleIndex = 0;
-
-    for (int s = 0; s < loopSlices; s++) {
-        const float sf = addWall ? (s > 0 ? (float)s-1: (float)s): (float)s;
+    for (int s = 0; s < loopSlices * 2; s++) {
+        const float sf = ceilf(s / 2.0);
         const float slice = sf * sliceInc + limit * startAngle;
-
         const float cosSlice = cos(slice);
         const float sinSlice = sin(slice);
-
-        const float normalSlice = slice + sliceInc / 2;
-        const float normalOuterRadius = (majorRadius + minorRadius) / (majorRadius + minorRadius) * cos(normalSlice);
-        const float normalInnerRadius = majorRadius / majorRadius * cos(normalSlice);
-
-        for (int a = 0; a < angular * 3; a++) {
-            float af = (float)a;
+        const float normalRadius = cos(sliceInc / 2);
+        for (int a = 0; a < angular * 2; a++) {
+            const float af = ceilf(a / 2.0);
             const float angle = af * angularInc - M_PI * 2.0 / 8;
-            const float cosAngle = cos(angle);
-            const float sinAngle = sin(angle);
 
-            float x = cosSlice * (majorRadius + cosAngle * minorRadius);
-            if (a % 4 == 0 || a % 4 == 1) {
-                x = cosSlice * (majorRadius + minorRadius);
-            } else {
+            float x = 0;
+            if (a > angular - 2 && a < angular * 2 - 1) {
                 x = cosSlice * majorRadius;
-            }
-            float y = sinSlice * (majorRadius + cosAngle * minorRadius);
-            if (a % 4 == 0 || a % 4 == 1) {
-                y = sinSlice * (majorRadius + minorRadius);
             } else {
-                y = sinSlice * majorRadius;
+                x = cosSlice * (majorRadius + minorRadius);
             }
-            float z = sinAngle * minorRadius;
-            if (a % 4 == 0 || a % 4 == 3) {
+            float y = 0;
+            if (a > angular - 2 && a < angular * 2 - 1) {
+                y = sinSlice * majorRadius;
+            } else {
+                y = sinSlice * (majorRadius + minorRadius);
+            }
+            float z = 0;
+            if (a == 0 || a > angular) {
                 z = height / 2;
             } else {
                 z = - height / 2;
             }
-
-            // 饼状图的扇形墙面部分 a向量与y轴一致 b向量与面平行，得到c向量即法线
-            const simd_float3 tangent = simd_make_float3(-sinSlice, cosSlice, 0.0);
-            const simd_float3 stangent = simd_make_float3(cosSlice * (-sinAngle), sinSlice * (-sinAngle), cosAngle);
-            const simd_float3 normal = simd_cross(tangent, stangent);
-
-            int currentVertex = vertexIndex++;
-            if (a % 4 == 0 || a % 4 == 1) {
-                float normalX = normalOuterRadius * cos(normalSlice);
-                float normalZ = normalOuterRadius * sin(normalSlice);
-                float normalY = 0;
-                normals[currentVertex] = SCNVector3Make(normalX, normalY, normalZ);
-            } else {
-                float normalX = -normalOuterRadius * cos(normalSlice);
-                float normalZ = -normalOuterRadius * sin(normalSlice);
-                float normalY = 0;
-                normals[currentVertex] = SCNVector3Make(normalX, normalY, normalZ);
+            float normalX = 1;
+            float normalY = 1;
+            float normalZ = 1;
+            if ((a == 0 || a == 1) && s % 2 == 0) { // 向外
+                normalX = normalRadius * cos(slice + sliceInc / 2);
+                normalY = normalRadius * sin(slice + sliceInc / 2);
+                normalZ = 0;
+            } else if ((a == 0 || a == 1) && s % 2 == 1) {
+                normalX = normalRadius * cos(slice - sliceInc / 2);
+                normalY = normalRadius * sin(slice - sliceInc / 2);
+                normalZ = 0;
+            } else if (a == 2 || a == 3) { // 向下
+                normalX = 0;
+                normalY = 0;
+                normalZ = -1;
+            } else if ((a == 4 || a == 5) && s % 2 == 0) { // 向内
+                normalX = -normalRadius * cos(slice + sliceInc / 2);
+                normalY = -normalRadius * sin(slice + sliceInc / 2);
+                normalZ = 0;
+            } else if ((a == 4 || a == 5) && s % 2 == 1) {
+                normalX = -normalRadius * cos(slice - sliceInc / 2);
+                normalY = -normalRadius * sin(slice - sliceInc / 2);
+                normalZ = 0;
+            } else { // 向上
+                normalX = 0;
+                normalY = 0;
+                normalZ = 1;
             }
-
+            
+            int currentVertex = vertexIndex++;
+            
             position[currentVertex] = SCNVector3Make(x, z, y);
-//            normals[currentVertex] = SCNVector3Make(normal.x, normal.z, normal.y);
+            normals[currentVertex] = SCNVector3Make(normalX, normalZ, normalY);
             uv[currentVertex] = CGPointMake(af / angularf, sf / slicesf);
 
-            if (a < angular) {
-                const uint32_t index = a * 5 % perLoop + s * perLoop + angular * s;
-                const uint32_t tl = index;
-                const uint32_t tr = tl + 1;
-                const uint32_t bl = (index + perLoop) % 36;
-                const uint32_t br = (bl + 1) % 36;
+            if (a < angular && s < loopSlices) {
+                const uint32_t index = a + s * perLoop / 2;
+
+                const uint32_t tl = index * 2;//0
+                const uint32_t tr = tl + 1;//1
+                const uint32_t bl = index * 2 + perLoop / 2;//0+perloop
+                const uint32_t br = bl + 1;//0+perloop+1
+
                 ind[triangleIndex++] = tl;
-                ind[triangleIndex++] = tr;
                 ind[triangleIndex++] = bl;
                 ind[triangleIndex++] = tr;
+                ind[triangleIndex++] = tr;
+                ind[triangleIndex++] = bl;
                 ind[triangleIndex++] = br;
-                ind[triangleIndex++] = bl;
             }
         }
     }
-
-//    for (int i = 0; i < vertices; i++) {
-////        printf("%d %f %f %f \n",i, position[i].x, position[i].y, position[i].z);
-//        printf("%f %f %f \n", normals[i].x, normals[i].y, normals[i].z);
-//    }
-
+    
+    for (int i = 0; i < vertices; i++) {
+//        printf("%d %f %f %f \n", i, position[i].x, position[i].y, position[i].z);
+        printf("%f %f %f \n", normals[i].x, normals[i].y, normals[i].z);
+//        printf("%d %f %f \n", i, uv[i].x, uv[i].y);
+    }
     for (int i = 0; i < triangles; i++) {
         printf("%d ", ind[i]);
-        if ((i + 1) % 3 == 0) {
+        if (i % 3 == 2) {
             printf("\n");
         }
     }
-
+    
     return (GeometryData) {
         .vertexCount = vertices,
         .position = position,
@@ -375,171 +735,6 @@ typedef struct {
         .indexData = ind
     };
 }
-
-///// <#Description#>
-///// - Parameters:
-/////   - minorRadius: 内径
-/////   - majorRadius: 外径
-/////   - height: 厚度
-/////   - minorResolution: <#minorResolution description#>
-/////   - percent: <#percent description#>
-/////   - startAngle: <#startAngle description#>
-//- (GeometryData)generateRingWithMinorRadius:(CGFloat)minorRadius
-//                                majorRadius:(CGFloat)majorRadius
-//                                     height:(CGFloat)height
-//                            minorResolution:(int)minorResolution
-//                                    percent:(CGFloat)percent
-//                                 startAngle:(CGFloat)startAngle {
-//    const int slices = minorResolution > 2 ? minorResolution : 3; // 几条棱
-//    const int angular = 4; // 每条棱有几个面
-//
-//    const float slicesf = (float)slices;
-//    const float angularf = (float)angular;
-//
-//    const float limit = M_PI * 2.0;
-//    // 每一份的角度
-//    const float sliceInc = limit * percent / slicesf;
-//    const float angularInc = limit / angularf;
-//
-//    bool addWall = percent < 1 ? true: false;
-//    const int loopSlices = addWall ? slices: slices;
-//
-//    const int perLoop = angular + 1;
-////    const int perLoop = angular * 3 + 1;
-//    const int vertices = (loopSlices + 1) * perLoop;
-//    const int triangles = (angular * 2 * slices + (addWall ? 4: 0)) * 3;
-//
-//    SCNVector3 *position = (SCNVector3 *)malloc(vertices * sizeof(SCNVector3));
-//    // 表面上某一点的法向量（Normal Vector）指的是在该点处与表面垂直的方向。对于平面，其上各点的法向是一样的，统一为这个平面的法向。对于曲面，各点具有不同的法向量. 正确设置网格面上点的法向，对几何体在光照等情况下显示得更真实，这样就可以减少顶点数量，提高渲染速度
-//    //
-//    SCNVector3 *normals = (SCNVector3 *)malloc(vertices * sizeof(SCNVector3));
-//    CGPoint *uv = (CGPoint *)malloc(vertices * sizeof(CGPoint));
-//    int *ind = (int *)malloc(triangles * sizeof(int));
-//
-//    int vertexIndex = 0;
-//    int triangleIndex = 0;
-//
-//    for (int s = 0; s <= loopSlices; s++) {
-//        const float sf = addWall ? (s > 0 ? (float)s-1: (float)s): (float)s;
-//        const float slice = sf * sliceInc + limit * startAngle;
-//
-//        const float cosSlice = cos(slice);
-//        const float sinSlice = sin(slice);
-//
-//        const float normalSlice = slice + slice / 2;
-//        const float normalOuterRadius = (majorRadius + minorRadius) / (majorRadius + minorRadius) * cos(normalSlice);
-//        const float normalInnerRadius = majorRadius * cos(normalSlice);
-//
-//
-//
-//
-//        for (int a = 0; a <= angular; a++) {
-//            const float af = (float)a;
-//            const float angle = af * angularInc - M_PI * 2.0 / 8;
-//
-//            const float cosAngle = cos(angle);
-//            const float sinAngle = sin(angle);
-//
-//            float x = cosSlice * (majorRadius + cosAngle * minorRadius);
-//            if (a == 0 || a == 1 || a == angular) {
-//                x = cosSlice * (majorRadius + minorRadius);
-//            } else {
-//                x = cosSlice * majorRadius;
-//            }
-//            float y = sinSlice * (majorRadius + cosAngle * minorRadius);
-//            if (a == 0 || a == 1 || a == angular) {
-//                y = sinSlice * (majorRadius + minorRadius);
-//            } else {
-//                y = sinSlice * majorRadius;
-//            }
-//            float z = sinAngle * minorRadius;
-//            if (a == 0 || a == 3 || a == angular) {
-//                z = height / 2;
-//            } else {
-//                z = - height / 2;
-//            }
-//
-//            // 饼状图的扇形墙面部分 a向量与y轴一致 b向量与面平行，得到c向量即法线
-//            const simd_float3 tangent = simd_make_float3(-sinSlice, cosSlice, 0.0);
-//            const simd_float3 stangent = simd_make_float3(cosSlice * (-sinAngle), sinSlice * (-sinAngle), cosAngle);
-//            const simd_float3 normal = simd_cross(tangent, stangent);
-//
-//            int currentVertex = vertexIndex++;
-//            if (a == 0 || a == 1 || a == angular) {
-//                float normalX = normalOuterRadius * cos(slice / 2);
-//                float normalZ = normalOuterRadius * sin(slice / 2);
-//                float normalY = 0;
-//                normals[currentVertex] = SCNVector3Make(normalX, normalZ, normalY);
-//            } else {
-//                float normalX = -normalOuterRadius * cos(slice / 2);
-//                float normalZ = -normalOuterRadius * sin(slice / 2);
-//                float normalY = 0;
-//                normals[currentVertex] = SCNVector3Make(normalX, normalZ, normalY);
-//            }
-//
-//            position[currentVertex] = SCNVector3Make(x, z, y);
-////            normals[currentVertex] = SCNVector3Make(normal.x, normal.z, normal.y);
-//            uv[currentVertex] = CGPointMake(af / angularf, sf / slicesf);
-//
-//            if (s != loopSlices && a != angular) {
-//                const uint32_t index = a + s * perLoop;
-//
-//                const uint32_t tl = index;//0
-//                const uint32_t tr = tl + 1;//1
-//                const uint32_t bl = index + perLoop;//0+perloop
-//                const uint32_t br = bl + 1;//0+perloop+1
-//
-//                ind[triangleIndex++] = tl;
-//                ind[triangleIndex++] = tr;
-//                ind[triangleIndex++] = bl;
-//                ind[triangleIndex++] = tr;
-//                ind[triangleIndex++] = br;
-//                ind[triangleIndex++] = bl;
-//            }
-//            if (addWall && s == 0 && a == angular) {
-//                const uint32_t index = a + s * perLoop;
-//                const uint32_t tl = index;
-//                ind[triangleIndex++] = tl;
-//                ind[triangleIndex++] = tl - 1;
-//                ind[triangleIndex++] = tl - 2;
-//                ind[triangleIndex++] = tl - 2;
-//                ind[triangleIndex++] = tl - 3;
-//                ind[triangleIndex++] = tl - 4;
-//            } else if (addWall && s == loopSlices && a == 0) { // 翻转的意义是纹理的正反面
-//                const uint32_t index = a + s * perLoop;
-//                const uint32_t tl = index;
-//                ind[triangleIndex++] = tl;
-//                ind[triangleIndex++] = tl + 1;
-//                ind[triangleIndex++] = tl + 2;
-//                ind[triangleIndex++] = tl + 2;
-//                ind[triangleIndex++] = tl + 3;
-//                ind[triangleIndex++] = tl + 4;
-//            }
-//        }
-//    }
-//
-//    for (int i = 0; i < vertices; i++) {
-////        printf("%f %f %f \n", position[i].x, position[i].y, position[i].z);
-//        printf("%f %f %f \n", normals[i].x, normals[i].y, normals[i].z);
-//    }
-//
-//    for (int i = 0; i < triangles; i++) {
-////        printf("%d %d %d \n", ind[i], ind[i], ind[i]);
-//        printf("%d ", ind[i]);
-//        if ((i + 1) % 3 == 0) {
-//            printf("\n");
-//        }
-//    }
-//
-//    return (GeometryData) {
-//        .vertexCount = vertices,
-//        .position = position,
-//        .normal = normals,
-//        .uv = uv,
-//        .indexCount = triangles,
-//        .indexData = ind
-//    };
-//}
 
 - (GeometryData)generateBoxGeometryData:(CGFloat)width
                                  height:(CGFloat)height
